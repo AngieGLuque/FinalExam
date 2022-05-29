@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+  envoygateway:
+    build: Envoy/
+    ports:
+      - "9901:9902"
+      - "10001:10000"
+    volumes:
+      - ./Envoy/envoy.yaml:/etc/envoy/envoy.yaml
+
+  mysqlapi:
+    image: ${DOCKER_REGISTRY-}mysqlapi
+    build:
+      context: .
+      dockerfile: MysqlApi/Dockerfile
+    ports:
+        - "8081:80"
+        - "8082:443"
+
+  postgresqlapi:
+    image: ${DOCKER_REGISTRY-}postgresqlapi
+    build:
+      context: .
+      dockerfile: PostgresqlApi/Dockerfile
+    ports:
+        - "8083:80"
+        - "8084:443"
+
